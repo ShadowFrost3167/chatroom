@@ -1,4 +1,4 @@
-const io = require("socket.io");
+import io from "socket.io";
 
 // Replace 'http' with 'ws' to indicate WebSocket protocol
 const socket = io('ws://chatroom-exgl.onrender.com');
