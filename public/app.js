@@ -1,4 +1,8 @@
-const socket = io('ws://localhost:5500')
+const io = require("socket.io");
+
+// Replace 'http' with 'ws' to indicate WebSocket protocol
+const socket = io('ws://chatroom-exgl.onrender.com');
+
 
 //activity = when user types 
 const activity = document.querySelector('.activity')
