@@ -43,6 +43,7 @@ io.on('connection', socket => {
     //listener for entering specific common room
 
     socket.on('enterRoom', ({name, room})=>{
+        
         //leave prev room announce to prev room
         const prevRoom = findUser(socket.id)?.room
 
@@ -107,21 +108,24 @@ io.on('connection', socket => {
     })
 
     //listening for message event
-    socket.on('message', ({name, text}) =>{
+    socket.on('message', ({name, text, event}) =>{
+        
         const room = findUser(socket.id)?.room
         if(room){
             io.to(room).emit('message', buildMessage(name, text))
         }
+        event.preventDefault();
         
     })
     
 
     //listen for activity 
-    socket.on('activity', (name)=>{
+    socket.on('activity', (name, event)=>{
         const room = findUser(socket.id)?.room
         if (room){
             socket.broadcast.to(room).emit('activity', name)
         }
+        event.preventDefault();
         
     })
 
@@ -157,7 +161,7 @@ function activateUser(id, name, room){
 //when user leaves app
 function userLeave(id){
     UsersState.setUsers([
-        UsersState.users.filter(user => user.id !== id)
+        ...UsersState.users.filter(user => user.id !== id)
     ])
 }
 
